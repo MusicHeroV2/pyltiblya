@@ -26,7 +26,7 @@ class ReverseProxied(object):
         return self.app(environ, start_response)
 
 
-app = Flask('pylti1p3-game-example', template_folder='templates', static_folder='static')
+app = Flask('pylti1p3-game-example', template_folder='game/templates', static_folder='game/static')
 app.wsgi_app = ReverseProxied(app.wsgi_app)
 
 config = {
@@ -67,7 +67,7 @@ class ExtendedFlaskMessageLaunch(FlaskMessageLaunch):
 
 
 def get_lti_config_path():
-    return os.path.join(app.root_path, '..', 'configs', 'game.json')
+    return os.path.join(app.root_path, 'configs', 'game.json')
 
 
 def get_launch_data_storage():
@@ -265,4 +265,5 @@ def scoreboard(launch_id):
 
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=9001)
+    port = int(os.environ.get('PORT', 33507))
+    app.run(host='0.0.0.0', port=port)
